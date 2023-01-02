@@ -12,9 +12,11 @@ const Spec = [
     // skip multi-line comments
     [/^\/\*[\s\S]*?\*\//, null],
 
+    // Symbols, delimiters
+    [/^;/, ";"],
+
     // numbers:
     [/^\d+/, "NUMBER"],
-
 
     // Strings:
     [/^"[^"]*"/, "STRING"],
