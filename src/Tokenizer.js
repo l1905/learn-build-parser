@@ -1,3 +1,28 @@
+/**
+ * Tokenizer spec
+ */
+const Spec = [
+
+    //WhiteSpace:
+    [/^\s+/, null],
+
+    // Skip string-line comments
+    [/^\/\/.*/, null],
+
+    // skip multi-line comments
+    [/^\/\*[\s\S]*?\*\//, null],
+
+    // numbers:
+    [/^\d+/, "NUMBER"],
+
+
+    // Strings:
+    [/^"[^"]*"/, "STRING"],
+    [/^'[^']*'/, "STRING"],
+
+
+];
+
 class Tokenizer {
     init(string) {
         this._string = string;
@@ -17,43 +42,34 @@ class Tokenizer {
         }
         // Numbers;
         const string = this._string.slice(this._curor);
-        if(!Number.isNaN(Number(string[0]))) {
-            let number = '';
 
-            while(!Number.isNaN(Number(string[this._curor]))) {
-                number += string[this._curor++];
+        for (const [regexp, tokenType] of Spec) {
+            const tokenValue = this._match(regexp, string);
+            //Coun't match this rule, continuce
+            if(tokenValue == null) {
+                continue;
             }
+            if(tokenType == null) {
+                return this.getNextToken();
+            }
+
             return {
-                type: "NUMBER",
-                value: number,
+                type: tokenType,
+                value: tokenValue,
             }
         }
 
-        if(string[0] === '"') {
-            let s = '';
-            do {
-                s += string[this._curor++];
-            } while (string[this._curor] !== '"' && !this.isEOF());
-            s += string[this._curor++]; // skip "
-            return {
-                type: "STRING",
-                value: s,
-            }
-        }
-        if(string[0] === "'") {
-            let s = '';
-            do {
-                s += string[this._curor++];
-            } while (string[this._curor] !== "'" && !this.isEOF());
-            s += string[this._curor++]; // skip "
-            return {
-                type: "STRING",
-                value: s,
-            }
+        throw new SyntaxError(`UnExpected token: "${string[0]}"`);
+    }
+
+    _match(regexp, string) {
+        const matched = regexp.exec(string);
+        if(matched == null) {
+            return null;
         }
 
-
-        return null;
+        this._curor += matched[0].length;
+        return matched[0];
     }
 
     hasMoreTokens() {
