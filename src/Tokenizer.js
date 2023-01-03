@@ -18,9 +18,12 @@ const Spec = [
     // Block
     [/^\{/, "{"],
     [/^\}/, "}"],
+    [/^\(/, "("],
+    [/^\)/, ")"],
 
-    // Math operators: +, -
+    // Math operators: +, -, *, /
     [/^[+\-]/, "ADDITIVE_OPERATOR"],
+    [/^[*\/]/, "MULTIPLICATIVE_OPERATOR"],
 
     // numbers:
     [/^\d+/, "NUMBER"],

@@ -19,15 +19,8 @@ const parser = new Parser();
  */
 function exec() {
     const program = `
-        /**
-        * Document comment
-        */
-        "hello";
-        
-        //Number
-        42;
-        
-        
+        (2 + 2)-2;
+       
     `;
     const ast = parser.parse(program);
 
@@ -35,7 +28,7 @@ function exec() {
 }
 
 // manual test;
-// exec();
+exec();
 
 function test(program, expected) {
     const ast = parser.parse(program);
