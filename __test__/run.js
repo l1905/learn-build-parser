@@ -10,6 +10,7 @@ const tests = [
     require('./block-test'),
     require('./empty-statement-test'),
     require('./math-test'),
+    require('./assignment-test'),
 ];
 
 const parser = new Parser();
@@ -19,7 +20,7 @@ const parser = new Parser();
  */
 function exec() {
     const program = `
-        (2 + 2)-2;
+        x -= 1;
        
     `;
     const ast = parser.parse(program);
