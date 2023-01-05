@@ -24,6 +24,8 @@ const Spec = [
 
     // keywords
     [/^\blet\b/, 'let'],
+    [/^\bif\b/, 'if'],
+    [/^\belse\b/, 'else'],
 
     // numbers:
     [/^\d+/, "NUMBER"],
@@ -39,7 +41,8 @@ const Spec = [
     [/^[+\-]/, "ADDITIVE_OPERATOR"],
     [/^[*\/]/, "MULTIPLICATIVE_OPERATOR"],
 
-    
+    // Relational operators: >, >=, <, <=
+    [/^[><]=?/, "RELATIONAL_OPERATOR"],
 
     
 
