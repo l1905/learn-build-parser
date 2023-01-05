@@ -298,8 +298,8 @@ class Parser {
      * Logic OR expression
      *   x || y
      * LogicalORExpression 
-     *   : EqualityExpression LOGICAL_OR LogicalORExpression
-     *   | EqualityExpression 
+     *   : LogicalANDExpression LOGICAL_OR LogicalORExpression
+     *   | LogicalANDExpression 
      */
     LogicalORExpression() {
         return this._LogicalExpression("LogicalANDExpression", "LOGICAL_OR");
