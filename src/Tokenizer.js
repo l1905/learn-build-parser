@@ -26,11 +26,17 @@ const Spec = [
     [/^\blet\b/, 'let'],
     [/^\bif\b/, 'if'],
     [/^\belse\b/, 'else'],
+    [/^\btrue\b/, 'true'],
+    [/^\bfalse\b/, 'false'],
+    [/^\bnull\b/, 'null'],
 
     // numbers:
     [/^\d+/, "NUMBER"],
 
     [/^\w+/, "IDENTIFIER"],
+
+    // Equality operators ==, !=
+    [/^[=!]=/, "EQUALITY_OPERATOR"],
 
     // Assignment operators: =, *=, /=, +=, -=,
     [/^=/, "SIMPLE_ASSIGN"],
@@ -44,7 +50,11 @@ const Spec = [
     // Relational operators: >, >=, <, <=
     [/^[><]=?/, "RELATIONAL_OPERATOR"],
 
-    
+    // Logic operators: &&, ||
+    [/^&&/, "LOGICAL_AND"],
+    [/^\|\|/, "LOGICAL_OR"],
+
+
 
     // Strings:
     [/^"[^"]*"/, "STRING"],

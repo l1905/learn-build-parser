@@ -1,0 +1,62 @@
+module.exports = test => {
+    // NumericLiteral
+    test(`x > 0 == true;`, {
+        type: "Program",
+        body: [
+            {
+                type: "ExpressionStatement",
+                expression: {
+                    type: "BinaryExpression",
+                    operator: "==",
+                    left: {
+                        type: "BinaryExpression",
+                        operator: ">",
+                        left: {
+                            type: "Identifier",
+                            name: "x",
+                        },
+                        right: {
+                            type: "Numericliteral",
+                            value: 0,
+                        }
+                    },
+                    right: {
+                        type: "BooleanLiteral",
+                        value: true,
+                    }
+                }
+            }
+        ]
+    });
+
+    test(`x > 0 != true;`, {
+        type: "Program",
+        body: [
+            {
+                type: "ExpressionStatement",
+                expression: {
+                    type: "BinaryExpression",
+                    operator: "!=",
+                    left: {
+                        type: "BinaryExpression",
+                        operator: ">",
+                        left: {
+                            type: "Identifier",
+                            name: "x",
+                        },
+                        right: {
+                            type: "Numericliteral",
+                            value: 0,
+                        }
+                    },
+                    right: {
+                        type: "BooleanLiteral",
+                        value: true,
+                    }
+                }
+            }
+        ]
+    });
+
+    
+}
