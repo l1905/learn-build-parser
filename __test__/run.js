@@ -16,6 +16,7 @@ const tests = [
     require('./relational-test'),
     require('./equality-test'),
     require('./logical-test'),
+    require('./unary-test'),
 ];
 
 const parser = new Parser();
@@ -25,7 +26,8 @@ const parser = new Parser();
  */
 function exec() {
     const program = `
-    x > 0 || y < 1;
+    +x * -10;
+
     `;
     const ast = parser.parse(program);
 

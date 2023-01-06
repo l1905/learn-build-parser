@@ -1,0 +1,42 @@
+module.exports = test => {
+    // 比乘法优先级更高
+    test(`
+        -x;
+        `, {
+        type: "Program",
+        body: [
+            {
+                type: "ExpressionStatement",
+                expression: {
+                    type: "UnaryExpression",
+                    operator: "-",
+                    argument: {
+                        type: "Identifier",
+                        name: "x",
+                    }
+                }
+            },
+        ]
+    });
+
+    test(`
+        !x;
+        `, {
+        type: "Program",
+        body: [
+            {
+                type: "ExpressionStatement",
+                expression: {
+                    type: "UnaryExpression",
+                    operator: "!",
+                    argument: {
+                        type: "Identifier",
+                        name: "x",
+                    }
+                }
+            },
+        ]
+    });
+
+
+}

@@ -232,11 +232,12 @@ class Parser {
 
     /**
      * LeftHandSideExpression
-     *     : Identifier
+     *     : PrimaryExpression
      *     ;
      */
     LeftHandSideExpression() {
-        return this.Identifier();
+        // return this.Identifier();
+        return this.PrimaryExpression();
     }
 
     /**
@@ -382,14 +383,14 @@ class Parser {
 
     /**
      * AdditiveExpression
-     *     : PrimaryExpression
-     *     | MultiplicativeExpression MULTIPLICATIVE_OPERATOR  PrimaryExpression -> MultiplicativeExpression MULTIPLICATIVE_OPERATOR  PrimaryExpression MULTIPLICATIVE_OPERATOR  PrimaryExpression
+     *     : UnaryExpression
+     *     | MultiplicativeExpression MULTIPLICATIVE_OPERATOR  UnaryExpression -> MultiplicativeExpression MULTIPLICATIVE_OPERATOR  PrimaryExpression MULTIPLICATIVE_OPERATOR  PrimaryExpression
      *     ;
      */
     // 1+2+3
     MultiplicativeExpression() {
         return this._BinaryExpression(
-            "PrimaryExpression",
+            "UnaryExpression",
             "MULTIPLICATIVE_OPERATOR");
         /*let left = this.PrimaryExpression();
         // 这里从左到右， 递归操作
@@ -426,10 +427,38 @@ class Parser {
     }
 
     /**
+     *  UnaryExpression
+     *     : LeftHandSideExpression
+     *     | ADDITIVE_OPERATOR UnaryExpression
+     *     | LOGICAL_NOT UnaryExpression
+     */
+    UnaryExpression() {
+        let operator;
+        switch (this._lookahead.type) {
+            case "ADDITIVE_OPERATOR":
+                operator = this._eat("ADDITIVE_OPERATOR").value;
+                break;
+            case 'LOGICAL_NOT':
+                operator = this._eat("LOGICAL_NOT").value;
+                break;
+        }
+        if(operator != null) {
+            return {
+                type: "UnaryExpression",
+                operator,
+                argument: this.UnaryExpression(),
+            };
+        }
+        return this.LeftHandSideExpression();
+    }
+
+
+
+    /**
      * PrimaryExpression
      *     : Literal
      *     | ParenthesizedExpression 分组括号
-     *     | LeftHandSideExpression
+     *     | Identifier
      *     ;
      */
     PrimaryExpression() {
@@ -439,6 +468,8 @@ class Parser {
         switch (this._lookahead.type) {
             case "(":
                 return this.ParenthesizedExpression();
+            case "IDENTIFIER":
+                return this.Identifier();
             default:
                 return this.LeftHandSideExpression();
         }
