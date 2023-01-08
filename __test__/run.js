@@ -22,6 +22,7 @@ const tests = [
     require('./for-test'),
     require('./function-declaration-test'),
     require('./member-test'),
+    require('./call-test'),
 ];
 
 const parser = new Parser();
@@ -31,14 +32,17 @@ const parser = new Parser();
  */
 function exec() {
     const program = `
-    // let s = "Hello World!";
-    // let i = 0;
-    // while (i < s.length) {
-    //     s[i];
-    //     // console.log(i, s[i]);
-    //     i += 1;
-    // }
-    a.b.c['d'];
+    let s = "Hello World!";
+    let i = 0;
+    while (i < s.length) {
+        s[i];
+        console.log(i, s[i]);
+        i += 1;
+    }
+
+    square(2);
+    getCallback()();
+
     `;
     const ast = parser.parse(program);
 
