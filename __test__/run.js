@@ -21,6 +21,7 @@ const tests = [
     require('./do-while-test'),
     require('./for-test'),
     require('./function-declaration-test'),
+    require('./member-test'),
 ];
 
 const parser = new Parser();
@@ -30,12 +31,14 @@ const parser = new Parser();
  */
 function exec() {
     const program = `
-    def empty(x, y) {
-        return;
-    }
-
-    //square(2)
-
+    // let s = "Hello World!";
+    // let i = 0;
+    // while (i < s.length) {
+    //     s[i];
+    //     // console.log(i, s[i]);
+    //     i += 1;
+    // }
+    a.b.c['d'];
     `;
     const ast = parser.parse(program);
 
