@@ -53,6 +53,8 @@ class Parser {
      *     | VariableStatement
      *     | IfStatment
      *     | IterationStatement
+     *     | FunctionDeclaration
+     *     | ReturnStatement
      *     ;
      * @constructor
      */
@@ -66,6 +68,10 @@ class Parser {
                 return this.BlockStatement();
             case "let":
                 return this.VariableStatement();
+            case "def":
+                return this.FunctionStatement();
+            case "return":
+                return this.ReturnStatement();
             case "while":
             case "do":    
             case "for": 
@@ -74,6 +80,64 @@ class Parser {
                 return this.ExpressionStatement();
         }
     }
+
+    /**
+     * FunctionStatement
+     *     : 'def' Identifer '(' OptFormatParameterList ')' BlockStatement
+     *     ;
+     */
+    FunctionStatement() {
+        this._eat("def");
+        const name = this.Identifier();
+        
+        this._eat('(');
+
+        // OptFormatParameterList
+        const params = 
+            this._lookahead.type !== ')' ? this.FormatParameterList() : [];
+
+        this._eat(')');
+
+        const body = this.BlockStatement();
+
+        return {
+            type: "FunctionDeclaration",
+            name,
+            params,
+            body,
+        }
+    }
+
+    /**
+     * FormatParameterList
+     *     : Identifer
+     *     | FormatParameterList ',' Identifer
+     *     ;
+     */
+    FormatParameterList() {
+        const params = [];
+        do {
+            params.push(this.Identifier());
+        } while(this._lookahead.type === ',' && this._eat(','));
+        return params;
+    }
+
+    /**
+     * ReturnStatement
+     *     : 'return' OptExpression ';'
+     *     ;
+     */
+    ReturnStatement() {
+        this._eat("return");
+        const argument = this._lookahead.type !== ';' ? this.Expression() : null;
+        this._eat(';');
+        return {
+            type: "ReturnStatement",
+            argument,
+        }
+
+    }
+
 
     /**
      *  IterationStatement
